@@ -184,6 +184,39 @@ if (!file_exists(TOKEN_FILE)) {
             // Send data to Wunderground
             postToWunderground($data);
             echo "Data successfully posted to Wunderground.\n";
+            // Additional code to save data to a JSON file
+
+            // Define the path to the JSON file
+            $jsonFile = 'netatmo_data.json';
+
+            // Gather the data to save to JSON
+            $additionalData = [
+                        'temperature' => isset($data['tempf']) ? ($data['tempf'] - 32) * 5 / 9 : null, // Convert Fahrenheit back to Celsius for consistency
+                        'humidity' => $data['humidity'] ?? null,
+                        'pressure' => isset($data['baromin']) ? $data['baromin'] / 0.02953 : null, // Convert inHg back to hPa
+                        'dew_point' => isset($data['dewptf']) ? ($data['dewptf'] - 32) * 5 / 9 : null, // Convert Fahrenheit back to Celsius
+                        'wind_direction' => $data['winddir'] ?? null,
+                        'wind_speed' => isset($data['windspeedmph']) ? $data['windspeedmph'] / 0.621371 : null, // Convert mph to km/h
+                        'wind_gust' => isset($data['windgustmph']) ? $data['windgustmph'] / 0.621371 : null, // Convert mph to km/h
+                        'precipitation' => isset($data['rainin']) ? $data['rainin'] / 0.0393701 : null, // Convert inches to mm
+                        'accumulated_precipitation' => isset($data['dailyrainin']) ? $data['dailyrainin'] / 0.0393701 : null, // Convert inches to mm
+                        'timestamp' => time(),
+            ];
+        
+            // Load existing data from the JSON file, if it exists
+            if (file_exists($jsonFile)) {
+                        $existingData = json_decode(file_get_contents($jsonFile), true);
+            } else {
+                        $existingData = [];
+            }
+        
+            // Append the new data entry to the existing array
+            $existingData[] = $additionalData;
+        
+            // Save the updated data back to the JSON file
+            file_put_contents($jsonFile, json_encode($existingData, JSON_PRETTY_PRINT));
+        
+            echo "Data also saved locally to JSON file.\n";
         } else {
             echo "Failed to retrieve data from Netatmo.\n";
         }
