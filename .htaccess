@@ -1,0 +1,4 @@
+<Files "netatmo_tokens.json">
+    Order Allow,Deny
+    Deny from all
+</Files>
