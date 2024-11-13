@@ -13,3 +13,5 @@ Go to https://www.wunderground.com/member/devices and take your Wunderground sta
 Plug all of the data in the script - client id, client secret, redirect url, wunderground station and key.
 
 Execute the script.
+
+I added the ability to save the obtained values to a .json file and another PHP to display them in a neat interface with some filtering.
