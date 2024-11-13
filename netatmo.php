@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Netatmo Data Visualization</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script> <!-- Date adapter for Chart.js -->
+    <script src="/chart.js"></script>
+    <script src="/chartjs-adapter-date-fns"></script> <!-- Date adapter for Chart.js -->
     <style>
         /* Basic styling for layout */
         body {
@@ -222,11 +222,11 @@ function updateCharts(range) {
     );
     humidityChart = createSingleChart(
         document.getElementById('humidityChart').getContext('2d'),
-        timestamps, 'Humidity (%)', humidities, 'Humidity (%)', xAxisLimits, { min: 0, max: 100 }, true
+        timestamps, 'Humidity (%)', humidities, 'Humidity (%)', xAxisLimits, true, true
     );
     pressureChart = createSingleChart(
         document.getElementById('pressureChart').getContext('2d'),
-        timestamps, 'Pressure (hPa)', pressures, 'Pressure (hPa)', xAxisLimits
+        timestamps, 'Pressure (hPa)', pressures, 'Pressure (hPa)', xAxisLimits, true, true
     );
 }
 
